@@ -30,7 +30,7 @@ namespace StardewModdingAPI
         public static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Console.WriteLine("An exception has been caught");
-            File.WriteAllText(Constants.LogDir + "\\MODDED_ErrorLog.Log_" + DateTime.UtcNow.Ticks + ".txt", e.ExceptionObject.ToString());
+            File.WriteAllText(Constants.LogDir + Path.DirectorySeparatorChar + "MODDED_ErrorLog.Log_" + DateTime.UtcNow.Ticks + ".txt", e.ExceptionObject.ToString());
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace StardewModdingAPI
         public static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             Console.WriteLine("A thread exception has been caught");
-            File.WriteAllText(Constants.LogDir + "\\MODDED_ErrorLog.Log_" + Extensions.Random.Next(100000000, 999999999) + ".txt", e.Exception.ToString());
+            File.WriteAllText(Constants.LogDir + Path.DirectorySeparatorChar + "MODDED_ErrorLog.Log_" + Extensions.Random.Next(100000000, 999999999) + ".txt", e.Exception.ToString());
         }
 
         #endregion

@@ -24,6 +24,11 @@ namespace StardewModdingAPI
         public static SGame gamePtr;
         public static bool ready;
 
+#if !__MonoCS__
+        public const string StardewAssemblyName = "Stardew Valley.exe";
+#else
+        public const string StardewAssemblyName = "StardewValley.exe";
+#endif
         public static Assembly StardewAssembly;
         public static Type StardewProgramType;
         public static FieldInfo StardewGameInfo;
@@ -103,9 +108,9 @@ namespace StardewModdingAPI
             //_modContentPaths.ForEach(path => VerifyPath(path));
             VerifyPath(Constants.LogDir);
 
-            if (!File.Exists(Constants.ExecutionPath + "\\Stardew Valley.exe"))
+            if (!File.Exists(Constants.ExecutionPath + Path.DirectorySeparatorChar + StardewAssemblyName))
             {
-                throw new FileNotFoundException($"Could not found: {Constants.ExecutionPath}\\Stardew Valley.exe");
+                throw new FileNotFoundException($"Could not found: {Constants.ExecutionPath}{Path.DirectorySeparatorChar}{StardewAssemblyName}");
             }
         }
 
@@ -117,7 +122,7 @@ namespace StardewModdingAPI
             Log.AsyncY("Initializing SDV Assembly...");
 
             // Load in the assembly - ignores security
-            StardewAssembly = Assembly.UnsafeLoadFrom(Constants.ExecutionPath + "\\Stardew Valley.exe");
+            StardewAssembly = Assembly.UnsafeLoadFrom(Constants.ExecutionPath + Path.DirectorySeparatorChar + StardewAssemblyName);
             StardewProgramType = StardewAssembly.GetType("StardewValley.Program", true);
             StardewGameInfo = StardewProgramType.GetField("gamePtr");
 
@@ -224,8 +229,10 @@ namespace StardewModdingAPI
                 Game1.graphics.GraphicsProfile = GraphicsProfile.HiDef;
                 LoadMods();
 
+#if !__MonoCS__
                 StardewForm = Control.FromHandle(gamePtr.Window.Handle).FindForm();
                 if (StardewForm != null) StardewForm.Closing += StardewForm_Closing;
+#endif
 
                 ready = true;
 
@@ -369,13 +376,13 @@ namespace StardewModdingAPI
             DebugPixel = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1);
             DebugPixel.SetData(new[] {Color.White});
 
-#if DEBUG
+#if XXX
             StardewModdingAPI.Log.Async("REGISTERING BASE CUSTOM ITEM");
             SObject so = new SObject();
             so.Name = "Mario Block";
             so.CategoryName = "SMAPI Test Mod";
             so.Description = "It's a block from Mario!\nLoaded in realtime by SMAPI.";
-            so.Texture = Texture2D.FromStream(Game1.graphics.GraphicsDevice, new FileStream(_modContentPaths[0] + "\\Test.png", FileMode.Open));
+            so.Texture = Texture2D.FromStream(Game1.graphics.GraphicsDevice, new FileStream(_modContentPaths[0] + Path.DirectorySeparatorChar + "Test.png", FileMode.Open));
             so.IsPassable = true;
             so.IsPlaceable = true;
             StardewModdingAPI.Log.Async("REGISTERED WITH ID OF: " + SGame.RegisterModItem(so));
@@ -385,7 +392,7 @@ namespace StardewModdingAPI
             //so2.Name = "Mario Painting";
             //so2.CategoryName = "SMAPI Test Mod";
             //so2.Description = "It's a painting of a creature from Mario!\nLoaded in realtime by SMAPI.";
-            //so2.Texture = Texture2D.FromStream(Game1.graphics.GraphicsDevice, new FileStream(_modContentPaths[0] + "\\PaintingTest.png", FileMode.Open));
+            //so2.Texture = Texture2D.FromStream(Game1.graphics.GraphicsDevice, new FileStream(_modContentPaths[0] + Path.DirectorySeparatorChar + "PaintingTest.png", FileMode.Open));
             //so2.IsPassable = true;
             //so2.IsPlaceable = true;
             //StardewModdingAPI.Log.Async("REGISTERED WITH ID OF: " + SGame.RegisterModItem(so2));
@@ -409,7 +416,7 @@ namespace StardewModdingAPI
 
         private static void Events_LocationsChanged(List<GameLocation> newLocations)
         {
-#if DEBUG
+#if XXX
             SGame.ModLocations = SGameLocation.ConstructFromBaseClasses(Game1.locations);
 #endif
         }
@@ -418,7 +425,7 @@ namespace StardewModdingAPI
         {
             //SGame.CurrentLocation = null;
             //System.Threading.Thread.Sleep(10);
-#if DEBUG
+#if XXX
             Console.WriteLine(newLocation.name);
             SGame.CurrentLocation = SGame.LoadOrCreateSGameLocationFromName(newLocation.name);
 #endif
@@ -429,7 +436,9 @@ namespace StardewModdingAPI
 
         public static void StardewInvoke(Action a)
         {
+#if !__MonoCS__
             StardewForm.Invoke(a);
+#endif
         }
 
         private static void help_CommandFired(object o, EventArgsCommand e)
