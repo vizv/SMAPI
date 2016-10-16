@@ -16,7 +16,7 @@
   </tr>
   <tr>
     <td>
-      This repository is archived and issues are not actively read. For support with issues, please check the Stardew Valley official forums: http://community.playstarbound.com/threads/stardew-modding-api-0-40-1-1.108375/
+      This repository is a fork of <a href="https://github.com/cjsu/SMAPI">cjsu/SMAPI</a> for Linux Support. For support with upstream issues, please check the Stardew Valley official forums: http://community.playstarbound.com/threads/stardew-modding-api-0-40-1-1.108375/
     </td>
   </tr>
 </table>
@@ -36,7 +36,7 @@
   </tr>
   <tr>
     <td>
-      <a href="https://www.microsoft.com/en-gb/download/details.aspx?id=30653">Microsoft .NET Framework 4.5</a>
+      Steam version of Stardew Valley (other version should also work, but haven't been tested).
     </td>
   </tr>
 </table>
@@ -46,12 +46,12 @@
   </tr>
   <tr>
     <td>
+      Currently only Steam version has been tested.
+
       <ol>
-        <li>Make sure all requirements are installed.</li>
-        <li>Extract the SMAPI zip archive alongside your Stardew.exe. For example, if using Steam this would be somewhere like ‘C:/ProgramFiles/Steam/steamapps/common/StardewValley’.</li>
-        <li>To start SMAPI, launch StardewModdingAPI.exe.</li>
+        <li>Extract the SMAPI tgz archive alongside your StardewValley.exe. Usually this would be somewhere like ‘$HOME/.local/share/Steam/steamapps/common/Stardew Valley’.</li>
+        <li>To start SMAPI, launch Stardew Valley in Steam, or execute ‘StardewValley’ script directly.</li>
       </ol>
-      NOTE!: If you are using Steam and still wish to have the Steam overlay while playing, you will need to add a launch option to the game. For example, this launch option will tell Steam to use SMAPI by default: "C:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\StardewModdingAPI.exe %command%
     </td>
   </tr>
 </table>
